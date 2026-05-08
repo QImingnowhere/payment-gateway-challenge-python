@@ -35,12 +35,12 @@ The gateway:
 
 # Tech Stack
 
-- Python 3.11
+- Python 3.14
 - FastAPI
 - Pydantic
 - httpx
 - Pytest
-- Docker / Mountebank (bank simulator)
+- Docker
 
 ---
 
