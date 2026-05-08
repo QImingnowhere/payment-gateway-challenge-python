@@ -12,7 +12,7 @@ from payment_gateway_api.storage import PaymentRepository
 
 app = FastAPI()
 repository = PaymentRepository()
-bank_client = BankClient(base_url="http://localhost:8001")
+bank_client = BankClient("http://localhost:8080")
 
 @app.get("/")
 async def ping() -> Dict[str, str]:

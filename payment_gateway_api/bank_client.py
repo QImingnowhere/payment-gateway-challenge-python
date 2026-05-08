@@ -21,7 +21,7 @@ class BankClient:
         }
         try:
             async with httpx.AsyncClient() as client:
-                response = await client.post(f"{self.base_url}/process_payment", json=payload)
+                response = await client.post(f"{self.base_url}/payments", json=payload)
                 if response.status_code == 200:
                     data = response.json()
                     return BankResponse(
