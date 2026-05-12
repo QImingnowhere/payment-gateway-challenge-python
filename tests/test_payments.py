@@ -110,6 +110,36 @@ async def test_get_payment_return_previous_payment(valid_payment_request):
         assert get_data['currency'] == valid_payment_request['currency']
         assert get_data['amount'] == valid_payment_request['amount']
 
+@pytest.mark.parametrize(
+    "missing_field",
+    [
+        "card_number",
+        "expiry_month",
+        "expiry_year",
+        "currency",
+        "amount",
+        "cvv",
+    ],
+)
+@pytest.mark.asyncio
+async def test_post_payment_missing_required_fields(
+    valid_payment_request,
+    missing_field,
+):
+    payload = valid_payment_request.copy()
+    payload.pop(missing_field)
+
+    async with AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://test",
+    ) as client:
+        response = await client.post(
+            "/payments",
+            json=payload,
+        )
+
+    assert response.status_code == 422, f"Expected validation error for missing field: {missing_field}"
+
 @pytest.mark.asyncio
 async def test_get_payment_not_found():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
